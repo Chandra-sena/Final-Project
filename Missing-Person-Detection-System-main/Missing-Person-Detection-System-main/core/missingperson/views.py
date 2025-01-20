@@ -9,6 +9,10 @@ import cv2
 from twilio.rest import Client
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from .forms import FaceForm, SignUpForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate
 
 #Add yourr own credentials
 account_sid = 'ACd51534a72eb42bd5d73535272f80b151'
@@ -16,6 +20,39 @@ auth_token = 'ee2f7888025199cd03b60172b906b701'
 twilio_whatsapp_number = '+15705338319'
 
 # Create your views here.
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+
+def dashboard(request):
+    return render(request,"dashboard.html")
+
 def home(request):
     return render(request,"index.html")
 
@@ -139,16 +176,16 @@ def update_person(request, person_id):
     person = get_object_or_404(MissingPerson, id=person_id)
 
     if request.method == 'POST':
-        # Retrieve data from the form
+        # Retrieve data from the form with default values from the existing person instance
         first_name = request.POST.get('first_name', person.first_name)
         last_name = request.POST.get('last_name', person.last_name)
-        fathers_name = request.POST.get('fathers_name', person.fathers_name)
-        dob = request.POST.get('dob', person.dob)
+        father_name = request.POST.get('father_name', person.father_name)  # Correct field name
+        date_of_birth = request.POST.get('date_of_birth', person.date_of_birth)  # Correct field name
         address = request.POST.get('address', person.address)
         email = request.POST.get('email', person.email)
-        phonenum = request.POST.get('phonenum', person.phonenum)
+        phone_number = request.POST.get('phone_number', person.phone_number)  # Correct field name
         aadhar_number = request.POST.get('aadhar_number', person.aadhar_number)
-        missing_date = request.POST.get('missing_date', person.missing_date)
+        missing_from = request.POST.get('missing_from', person.missing_from)  # Correct field name
         gender = request.POST.get('gender', person.gender)
 
         # Check if a new image is provided
@@ -159,13 +196,13 @@ def update_person(request, person_id):
         # Update the person instance
         person.first_name = first_name
         person.last_name = last_name
-        person.fathers_name = fathers_name
-        person.dob = dob
+        person.father_name = father_name
+        person.date_of_birth = date_of_birth
         person.address = address
         person.email = email
-        person.phonenum = phonenum
+        person.phone_number = phone_number
         person.aadhar_number = aadhar_number
-        person.missing_date = missing_date
+        person.missing_from = missing_from
         person.gender = gender
 
         # Save the changes

@@ -23,7 +23,10 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns 
 
 urlpatterns = [
+    path('login/', login_view, name='login'),
+    path('signup/', signup_view, name='signup'),
     path('',home,name='home'),
+    path('dashboard/',dashboard,name='dashboard'),
     path('detect/',detect,name='detect'),
     path('surveillance/',surveillance,name = 'surveillance'),
     path('register/',register,name='register'),

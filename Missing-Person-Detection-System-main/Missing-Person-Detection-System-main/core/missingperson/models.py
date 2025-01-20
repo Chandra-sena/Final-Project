@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
-# Create your models here.
-from django.db import models
+
 
 class MissingPerson(models.Model):
     GENDER_CHOICES = [
@@ -16,7 +15,7 @@ class MissingPerson(models.Model):
     date_of_birth = models.DateField()
     address = models.TextField()
     email = models.EmailField()
-    phone_number = models.CharField(max_length=10)  # Assuming a maximum of 15 digits for phone number
+    phone_number = models.CharField(max_length=10)  # Assuming a maximum of 10 digits for phone number
     aadhar_number = models.CharField(max_length=12, unique=True)  # Aadhar number is 12 digits and should be unique
     image = models.ImageField(upload_to='missing_persons/')  # Store images in a 'missing_persons' directory
     missing_from = models.DateField()
@@ -39,3 +38,14 @@ class Location(models.Model):
 
     class Meta:
         ordering = ['-detected_at']  # Show the most recent locations first
+        
+from django.contrib.auth.models import User
+
+class Face(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='faces/')
+    encoding = models.TextField()  # Store face encoding as a string
+
+    def __str__(self):
+        return self.name
