@@ -5,112 +5,186 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Page</title>
   <style>
+    /* Import a futuristic font from Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+    /* Video Background */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .video-background video {
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: moveBackground 20s infinite linear; /* Animation added */
+    }
+
+    /* Keyframes for moving background */
+    @keyframes moveBackground {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    /* Existing styles */
     body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f7eeee;
-}
+      margin: 0;
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      color: #999;
+      text-align: center;
+    }
 
-.dashboard-container {
-  padding: 20px;
-  background-color: #9cc3e2;
-  max-width: 900px;
-  margin: 20px auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    .dashboard-container {
+      padding: 20px;
+      background-color: rgba(15, 50, 6, 0.9); /* Slightly transparent background */
+      max-width: 900px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+      border: 1px solid black;
+      z-index: 1;
+    }
 
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #658da6;
-  padding: 10px 20px;
-  border-radius: 10px 10px 0 0;
-  color: white;
-}
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(15, 50, 6, 0.9);
+      padding: 10px 20px;
+      border-radius: 10px 10px 10px 10px;
+      border: 1px solid black;
+      color: white;
+    }
 
-.logo {
-  display: flex;
-  align-items: center;
-}
+    .logo {
+      display: flex;
+      align-items: center;
+    }
 
-.logo img {
-  height: 50px;
-  margin-right: 10px;
-}
+    .logo img {
+      height: 50px;
+      margin-right: 10px;
+    }
 
-.logout-btn {
-  background-color: white;
-  border: 1px solid #658da6;
-  border-radius: 5px;
-  padding: 5px 15px;
-  color: #658da6;
-  font-weight: bold;
-  cursor: pointer;
-}
+    .logo h1 {
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
 
-.logout-btn:hover {
-  background-color: #e0e0e0;
-}
+    .logout-btn {
+      background-color: rgba(219, 47, 9, 0.99);
+      border: 1px solid rgba(15, 50, 6, 0.9);
+      border-radius: 5px;
+      padding: 5px 15px;
+      color: rgb(1, 9, 14);
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.dashboard-title {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 24px;
-  color: #333;
-}
+    .logout-btn:hover {
+      background-color: #e0e0e0;
+    }
 
-.user-info {
-  display: flex;
-  justify-content: space-between;
-  background-color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
+    .dashboard-title {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 28px;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      color: white;
+    }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
+    .user-info {
+      display: flex;
+      justify-content: space-between;
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      font-weight: bold;
+      color: #333;
+    }
 
-.card {
-  background-color: white;
-  text-align: center;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
 
-.card img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 10px;
-}
+    .card {
+      background-color: rgba(15, 31, 11, 0.9);
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-.card p {
-  font-weight: bold;
-  color: #333;
-}
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+      font-weight: bold;
+      color: white;
+    }
+
+    .card a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    }
+
+    .card a:hover {
+      color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
+  <!-- Video Background -->
+  <div class="video-background">
+    <video autoplay muted loop>
+      <!-- Dummy placeholder video -->
+      <source src="https://video-previews.elements.envatousercontent.com/files/2644a64d-a4f6-439d-ba1b-d1132bd0e629/video_preview_h264.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Dashboard Content -->
   <div class="dashboard-container">
     <header class="dashboard-header">
       <div class="logo">
         <img src="https://res.cloudinary.com/dppto1jwd/image/upload/v1737362048/uerzlodxyjvymkiab8uh.png">
         <h1>FRT Police Department</h1>
       </div>
-      <a href="login.html"><button class="logout-btn">Logout</button></a>
+      <a href="{% url 'login' %}"><button class="logout-btn">Logout</button></a>
     </header>
     <h2 class="dashboard-title">Dashboard</h2>
-    <div class="user-info">
-      <span>Name: Police Name</span>
-      <span>Police Id: PS12345</span>
-    </div>
     <div class="dashboard-grid">
       <div class="card">
         <img src="https://res.cloudinary.com/dppto1jwd/image/upload/v1737362333/gmy9p0nrlrnrz35g8xfc.png" alt="Attendance">
@@ -119,12 +193,10 @@
       <div class="card">
         <img src="https://res.cloudinary.com/dppto1jwd/image/upload/v1737362560/qt8o9gfrxsyvzfkneyce.png" alt="Live Monitoring">
         <p><a href="http://127.0.0.1:8000/surveillance/">Live Monitoring</a></p>
-
       </div>
       <div class="card">
         <img src="https://res.cloudinary.com/dppto1jwd/image/upload/v1737362561/bubfkxu3fhagmftvgwsv.png">
         <p><a href="your-link-here">Criminal Detection</a></p>
-
       </div>
       <div class="card">
         <img src="https://res.cloudinary.com/dppto1jwd/image/upload/v1737362562/xubucp89um2lcy1spqrw.png">
