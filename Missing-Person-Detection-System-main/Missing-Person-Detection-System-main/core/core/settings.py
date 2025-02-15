@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 ]
-EXTERNAL_APPS = ['missingperson']
+EXTERNAL_APPS = ['missingperson','project']
 INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
